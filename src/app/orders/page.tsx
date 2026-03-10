@@ -1,11 +1,10 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { QuantityStepper } from "@/app/_components/quantity-stepper";
 import { supabase } from "@/lib/supabaseClient";
 import { TENANT_ID } from "@/lib/tenant";
-import { connection } from 'next/server'
 
 type Customer = {
   id: string;
@@ -30,8 +29,7 @@ type SelectedItem = {
 // Products will be loaded from Supabase for the active tenant.
 const PRODUCTS: Product[] = [];
 
-export default function OrdersPage() {
-  connection();
+function OrdersPageInner() {
   const searchParams = useSearchParams();
   const initialModeParam = searchParams.get("mode");
   const [mode, setMode] = useState<"order" | "newCustomer">(
@@ -697,3 +695,10 @@ export default function OrdersPage() {
   );
 }
 
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={<div className="p-4 text-slate-400 text-sm">Loading...</div>}>
+      <OrdersPageInner />
+    </Suspense>
+  );
+}
