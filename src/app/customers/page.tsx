@@ -138,7 +138,7 @@ export default function CustomersPage() {
                       <p className="truncate font-medium">{c.name}</p>
                       <p className="mt-0.5 text-[11px] text-slate-400">
                         {c.phone}
-                        {c.area ? <span className="text-slate-600"> • {c.area}</span> : null}
+                        {c.address ? <span className="text-slate-600"> • {c.address}</span> : null}
                       </p>
                     </div>
                     <button

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { QuantityStepper } from "@/app/_components/quantity-stepper";
 import { supabase } from "@/lib/supabaseClient";
 import { TENANT_ID } from "@/lib/tenant";
+import { connection } from 'next/server'
 
 type Customer = {
   id: string;
@@ -30,6 +31,7 @@ type SelectedItem = {
 const PRODUCTS: Product[] = [];
 
 export default function OrdersPage() {
+  connection();
   const searchParams = useSearchParams();
   const initialModeParam = searchParams.get("mode");
   const [mode, setMode] = useState<"order" | "newCustomer">(
@@ -207,7 +209,12 @@ export default function OrdersPage() {
 
     async function save() {
       setSaving(true);
+      
       try {
+        if (!selectedCustomer) {
+          setMessage("Select a customer first.");
+          return;
+        }
         const { data: order, error: orderError } = await supabase
           .from("orders")
           .insert({
