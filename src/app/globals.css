@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    ui-sans-serif, sans-serif;
+}
+
+/* Prevent mobile browsers (especially iOS Safari) from zooming inputs on focus */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
